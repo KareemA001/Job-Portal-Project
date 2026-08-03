@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a496da2e-5f49-4f07-b64c-165b39f2d584" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/job-portal-backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/JobPortalBackendApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/JobPortalBackendApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/company/controller/CompanyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/company/controller/CompanyController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +15,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -47,7 +46,7 @@
     "Spring Boot.JobPortalBackendApplication.executor": "Run",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "settings.editor.selected.configurable": "debugger.hotswap"
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors"
   }
 }]]></component>
   <component name="SharedIndexes">
