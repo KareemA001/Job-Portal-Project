@@ -1,0 +1,14 @@
+services:
+  dbservice:
+    image: mysql:latest
+    container_name: jobportaldb
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: jobportal
+    volumes:
+      - "jobportal_db_data:/var/lib/mysql"
+volumes:
+  jobportal_db_data:

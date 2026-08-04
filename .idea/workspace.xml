@@ -7,7 +7,6 @@
     <list default="true" id="a496da2e-5f49-4f07-b64c-165b39f2d584" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/job-portal-backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/resources/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/resources/schema.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +18,7 @@
       <list>
         <option value="Interface" />
         <option value="Class" />
+        <option value="Dockerfile" />
       </list>
     </option>
   </component>
@@ -44,6 +44,7 @@
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "Spring Boot.JobPortalBackendApplication.executor": "Run",
     "git-widget-placeholder": "main",
