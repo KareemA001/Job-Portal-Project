@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS companies (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL UNIQUE,
+                                         id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                         name VARCHAR(255) NOT NULL UNIQUE,
     logo VARCHAR(500),
     industry VARCHAR(100) NOT NULL,
     size VARCHAR(50) NOT NULL,
