@@ -1,4 +1,4 @@
-package com.spring.job_portal_backend.service;
+package com.spring.job_portal_backend.company.service;
 
 import com.spring.job_portal_backend.dto.CompanyDto;
 

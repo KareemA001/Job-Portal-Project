@@ -1,7 +1,7 @@
 package com.spring.job_portal_backend.company.controller;
 
 import com.spring.job_portal_backend.dto.CompanyDto;
-import com.spring.job_portal_backend.service.ICompanyService;
+import com.spring.job_portal_backend.company.service.ICompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
