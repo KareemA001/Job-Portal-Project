@@ -28,7 +28,7 @@ public class JobPortalSecurityConfig {
                     securedPaths.forEach(path -> requests.requestMatchers(path).authenticated());
                     requests.anyRequest().denyAll();
                 })
-                .formLogin(withDefaults() )
+                .formLogin(withDefaults())
                 .httpBasic(withDefaults())
                 .build();
     }

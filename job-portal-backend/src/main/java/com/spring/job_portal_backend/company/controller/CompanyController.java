@@ -18,14 +18,14 @@ public class CompanyController {
     private final ICompanyService companyService;
 
 
-    @GetMapping(version="1.0")
+    @GetMapping(path="public", version="1.0")
     public ResponseEntity<List<CompanyDto>> getCompaniesVersionOne() {
         List<CompanyDto> companyList = companyService.getAllCompanies();
         return ResponseEntity.ok().body(companyList);
     }
 
-    @GetMapping(version = "2.0")
-    public ResponseEntity<String> getCompaniesVersion2() {
-        return ResponseEntity.ok().body("Companies list from version two");
-    }
+//    @GetMapping(path="public", version = "2.0")
+//    public ResponseEntity<String> getCompaniesVersion2() {
+//        return ResponseEntity.ok().body("Companies list from version two");
+//    }
 }
