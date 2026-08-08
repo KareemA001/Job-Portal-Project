@@ -5,6 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -40,8 +43,9 @@ public class JobPortalSecurityConfig {
                     requests.anyRequest().denyAll();
                 })
                 .cors(ccs -> ccs.configurationSource(corsConfigurationSource()))
-                .formLogin(withDefaults())
-                .httpBasic(withDefaults())
+                .csrf(ccc -> ccc.disable())
+                .formLogin(flc -> flc.disable())
+                .httpBasic(hbc -> hbc.disable())
                 .build();
     }
 
@@ -75,5 +79,13 @@ public class JobPortalSecurityConfig {
         User user_2 = new User("Alaa","{bcrypt}$2a$10$4NEcYnwM6O1bMfX27FzfGeaFWb/Tm4hx8NNk0/xg0/9PQ41OP2EIK",
                 List.of(new SimpleGrantedAuthority("ADMIN")));
         return new InMemoryUserDetailsManager(user_1,user_2);
+    }
+
+    @Bean(name="authenticationManager")
+    public AuthenticationManager authenticationManager() {
+        var authenticationProvider = new DaoAuthenticationProvider(userDetailsService());
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        var providerManager = new ProviderManager(authenticationProvider);
+        return providerManager;
     }
 }
