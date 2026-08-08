@@ -6,6 +6,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -51,5 +57,23 @@ public class JobPortalSecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+//        String hashedValue_1 = passwordEncoder().encode("Karim0000");
+//        String hashedValue_2 = passwordEncoder().encode("Karim_0000");
+//        System.out.println(hashedValue_1);
+//        System.out.println(hashedValue_2);
+        User user_1 = new User("Karim","{bcrypt}$2a$10$vya8S1n8YlUf7ahX7Yfek.0J5vO.tzDFaVhJY6QTiaZ6yaU/0x022",
+                List.of(new SimpleGrantedAuthority("USER")));
+        User user_2 = new User("Alaa","{bcrypt}$2a$10$4NEcYnwM6O1bMfX27FzfGeaFWb/Tm4hx8NNk0/xg0/9PQ41OP2EIK",
+                List.of(new SimpleGrantedAuthority("ADMIN")));
+        return new InMemoryUserDetailsManager(user_1,user_2);
     }
 }
