@@ -1,10 +1,12 @@
 package com.spring.job_portal_backend.auth;
 
+import com.spring.job_portal_backend.constants.ApplicationConstants;
 import com.spring.job_portal_backend.dto.LoginRequestDto;
 import com.spring.job_portal_backend.dto.LoginResponseDto;
 import com.spring.job_portal_backend.dto.RegisterRequestDto;
 import com.spring.job_portal_backend.dto.UserDto;
 import com.spring.job_portal_backend.entity.JobPortalUser;
+import com.spring.job_portal_backend.entity.Role;
 import com.spring.job_portal_backend.repository.JobPortalUserRepository;
 import com.spring.job_portal_backend.repository.RoleRepository;
 import com.spring.job_portal_backend.security.util.JwtUtil;
@@ -22,6 +24,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path="/auth")
@@ -62,10 +68,27 @@ public class AuthController {
     }
 
     @PostMapping(path="/register/public", version = "1.0")
-    public ResponseEntity<String> login(@RequestBody RegisterRequestDto requestDto) {
+    public ResponseEntity<?> login(@RequestBody RegisterRequestDto requestDto) {
+
+        Optional<JobPortalUser> existingUser = jobPortalUserRepository.readUserByEmailOrMobileNumber(
+                requestDto.email(), requestDto.mobileNumber());
+        if (existingUser.isPresent()) {
+            Map<String, String> errors = new HashMap<>();
+            JobPortalUser jobPortalUser = existingUser.get();
+            if (jobPortalUser.getEmail().equalsIgnoreCase(requestDto.email())) {
+                errors.put("email", "Email is already registered");
+            }
+            if (jobPortalUser.getMobileNumber().equals(requestDto.mobileNumber())) {
+                errors.put("mobileNumber", "Mobile number is already registered");
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        }
+
         JobPortalUser user = new JobPortalUser();
         BeanUtils.copyProperties(requestDto, user);
-        roleRepository.findById(1L).ifPresent(user::setRole);
+        Role role = roleRepository.findRoleByName(ApplicationConstants.ROLE_JOB_SEEKER)
+                .orElseThrow(() -> new IllegalArgumentException("Role "+ ApplicationConstants.ROLE_JOB_SEEKER+" not found"));
+        user.setRole(role);
         user.setPasswordHash(passwordEncoder.encode(requestDto.password()));
         jobPortalUserRepository.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).body("User is registered successfully");
