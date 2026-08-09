@@ -58,8 +58,8 @@ CREATE TABLE IF NOT EXISTS roles (
 
 
 CREATE TABLE IF NOT EXISTS users (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
+                                     id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(500) NOT NULL,
     mobile_number VARCHAR(20) UNIQUE,

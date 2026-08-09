@@ -11,7 +11,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Getter
 @Setter
 @Entity
-@Table(name="user")
+@Table(name="users")
 public class JobPortalUser extends BaseEntity{
 
     @Id
@@ -46,6 +46,6 @@ public class JobPortalUser extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.SET_NULL)
-    @JoinColumn(referencedColumnName = "company_id", nullable = false)
+    @JoinColumn(name = "company_id")
     private Company company;
 }

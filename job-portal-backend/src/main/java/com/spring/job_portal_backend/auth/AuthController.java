@@ -2,9 +2,14 @@ package com.spring.job_portal_backend.auth;
 
 import com.spring.job_portal_backend.dto.LoginRequestDto;
 import com.spring.job_portal_backend.dto.LoginResponseDto;
+import com.spring.job_portal_backend.dto.RegisterRequestDto;
 import com.spring.job_portal_backend.dto.UserDto;
+import com.spring.job_portal_backend.entity.JobPortalUser;
+import com.spring.job_portal_backend.repository.JobPortalUserRepository;
+import com.spring.job_portal_backend.repository.RoleRepository;
 import com.spring.job_portal_backend.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +17,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +31,9 @@ public class AuthController {
     @Qualifier(value="authenticationManager")
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
+    private final PasswordEncoder passwordEncoder;
+    private final JobPortalUserRepository jobPortalUserRepository;
+    private final RoleRepository roleRepository;
 
     @PostMapping(path="/login/public", version = "1.0")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto requestDto) {
@@ -50,5 +59,15 @@ public class AuthController {
 
     private ResponseEntity<LoginResponseDto> buildErrorResponse(HttpStatus status, String message) {
         return ResponseEntity.status(status).body(new LoginResponseDto(message, null, null));
+    }
+
+    @PostMapping(path="/register/public", version = "1.0")
+    public ResponseEntity<String> login(@RequestBody RegisterRequestDto requestDto) {
+        JobPortalUser user = new JobPortalUser();
+        BeanUtils.copyProperties(requestDto, user);
+        roleRepository.findById(1L).ifPresent(user::setRole);
+        user.setPasswordHash(passwordEncoder.encode(requestDto.password()));
+        jobPortalUserRepository.save(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body("User is registered successfully");
     }
 }
