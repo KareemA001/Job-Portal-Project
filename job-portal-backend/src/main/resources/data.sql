@@ -4999,3 +4999,12 @@ VALUES ('PR Manager', 27, 'Minneapolis, MN', 'On-site', 'Freelance',
         '["HubSpot", "Google Ads", "Google Analytics"]', '["Gym Membership", "Professional Development", "Life Insurance", "Stock Options", "Free Meals"]', '2025-10-21 17:27:59',
         '2025-12-06 11:27:59', 189, 0, 0,
         0, 'ACTIVE', 'SYSTEM');
+
+INSERT INTO roles (name, created_at, created_by)
+VALUES ('ROLE_JOB_SEEKER', CURRENT_TIMESTAMP, 'DBA');
+
+INSERT INTO roles (name, created_at, created_by)
+VALUES ('ROLE_EMPLOYER', CURRENT_TIMESTAMP, 'DBA');
+
+INSERT INTO roles (name, created_at, created_by)
+VALUES ('ROLE_ADMIN', CURRENT_TIMESTAMP, 'DBA');
