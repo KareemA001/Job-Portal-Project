@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.password.CompromisedPasswordChecker;
+import org.springframework.security.authentication.password.CompromisedPasswordDecision;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,6 +42,7 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final JobPortalUserRepository jobPortalUserRepository;
     private final RoleRepository roleRepository;
+    private final CompromisedPasswordChecker compromisedPasswordChecker;
 
     @PostMapping(path="/login/public", version = "1.0")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto requestDto) {
@@ -69,6 +72,13 @@ public class AuthController {
 
     @PostMapping(path="/register/public", version = "1.0")
     public ResponseEntity<?> login(@RequestBody RegisterRequestDto requestDto) {
+
+        CompromisedPasswordDecision isCompromised = compromisedPasswordChecker.check(requestDto.password());
+
+        if (isCompromised.isCompromised()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("password", "Choose a strong password"));
+        }
 
         Optional<JobPortalUser> existingUser = jobPortalUserRepository.readUserByEmailOrMobileNumber(
                 requestDto.email(), requestDto.mobileNumber());
