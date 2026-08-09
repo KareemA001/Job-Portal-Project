@@ -3,6 +3,7 @@ package com.spring.job_portal_backend.auth;
 import com.spring.job_portal_backend.dto.LoginRequestDto;
 import com.spring.job_portal_backend.dto.LoginResponseDto;
 import com.spring.job_portal_backend.dto.UserDto;
+import com.spring.job_portal_backend.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ public class AuthController {
 
     @Qualifier(value="authenticationManager")
     private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
 
     @PostMapping(path="/login/public", version = "1.0")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto requestDto) {
@@ -30,8 +32,9 @@ public class AuthController {
             var authenticationResult = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     requestDto.username(), requestDto.password()));
             var userDto = new UserDto();
+            String jwtToken = jwtUtil.generateJwtToken(authenticationResult);
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(new LoginResponseDto(HttpStatus.OK.getReasonPhrase(), userDto, null));
+                    .body(new LoginResponseDto(HttpStatus.OK.getReasonPhrase(), userDto, jwtToken));
 
         } catch (BadCredentialsException ex) {
             return buildErrorResponse(HttpStatus.UNAUTHORIZED,
