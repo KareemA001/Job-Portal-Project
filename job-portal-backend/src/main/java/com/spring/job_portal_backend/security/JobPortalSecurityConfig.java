@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
@@ -71,23 +72,23 @@ public class JobPortalSecurityConfig {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-//        String hashedValue_1 = passwordEncoder().encode("Karim0000");
-//        String hashedValue_2 = passwordEncoder().encode("Karim_0000");
-//        System.out.println(hashedValue_1);
-//        System.out.println(hashedValue_2);
-        User user_1 = new User("Karim","{bcrypt}$2a$10$vya8S1n8YlUf7ahX7Yfek.0J5vO.tzDFaVhJY6QTiaZ6yaU/0x022",
-                List.of(new SimpleGrantedAuthority("USER")));
-        User user_2 = new User("Alaa","{bcrypt}$2a$10$4NEcYnwM6O1bMfX27FzfGeaFWb/Tm4hx8NNk0/xg0/9PQ41OP2EIK",
-                List.of(new SimpleGrantedAuthority("ADMIN")));
-        return new InMemoryUserDetailsManager(user_1,user_2);
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+////        String hashedValue_1 = passwordEncoder().encode("Karim0000");
+////        String hashedValue_2 = passwordEncoder().encode("Karim_0000");
+////        System.out.println(hashedValue_1);
+////        System.out.println(hashedValue_2);
+//        User user_1 = new User("Karim","{bcrypt}$2a$10$vya8S1n8YlUf7ahX7Yfek.0J5vO.tzDFaVhJY6QTiaZ6yaU/0x022",
+//                List.of(new SimpleGrantedAuthority("USER")));
+//        User user_2 = new User("Alaa","{bcrypt}$2a$10$4NEcYnwM6O1bMfX27FzfGeaFWb/Tm4hx8NNk0/xg0/9PQ41OP2EIK",
+//                List.of(new SimpleGrantedAuthority("ADMIN")));
+//        return new InMemoryUserDetailsManager(user_1,user_2);
+//    }
 
     @Bean(name="authenticationManager")
-    public AuthenticationManager authenticationManager() {
-        var authenticationProvider = new DaoAuthenticationProvider(userDetailsService());
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
+    public AuthenticationManager authenticationManager(AuthenticationProvider authenticationProvider) {
+//        var authenticationProvider = new DaoAuthenticationProvider(userDetailsService());
+//        authenticationProvider.setPasswordEncoder(passwordEncoder());
         var providerManager = new ProviderManager(authenticationProvider);
         return providerManager;
     }

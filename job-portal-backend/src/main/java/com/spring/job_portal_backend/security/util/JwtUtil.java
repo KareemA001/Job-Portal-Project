@@ -1,6 +1,7 @@
 package com.spring.job_portal_backend.security.util;
 
 import com.spring.job_portal_backend.constants.ApplicationConstants;
+import com.spring.job_portal_backend.entity.JobPortalUser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +28,12 @@ public class JwtUtil {
                 ApplicationConstants.JWT_SECRET_DEFAULT_VALUE);
         SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
 
-        User currentUser = (User) authentication.getPrincipal();
+        JobPortalUser currentUser = (JobPortalUser) authentication.getPrincipal();
 
         jwtToken = Jwts.builder().issuer("Job-portal-app").subject("JWT-Token")
-                .claim("username", currentUser.getUsername())
+                .claim("name", currentUser.getName())
+                .claim("email", currentUser.getEmail())
+                .claim("mobil number",currentUser.getMobileNumber())
                 .claim("roles", authentication.getAuthorities().stream().map(
                         GrantedAuthority::getAuthority).collect(Collectors.joining(",")))
                 .issuedAt(new java.util.Date())
