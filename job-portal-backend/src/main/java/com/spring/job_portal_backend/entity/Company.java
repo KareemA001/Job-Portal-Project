@@ -4,6 +4,7 @@ package com.spring.job_portal_backend.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -53,5 +54,6 @@ public class Company extends BaseEntity{
     private String website;
 
     @OneToMany(mappedBy="company", cascade =CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @SQLRestriction("status = 'ACTIVE'")
     private List<Job> jobs = new ArrayList<>();
 }

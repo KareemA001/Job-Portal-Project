@@ -1,5 +1,6 @@
 package com.spring.job_portal_backend.company.service.impl;
 
+import com.spring.job_portal_backend.constants.ApplicationConstants;
 import com.spring.job_portal_backend.dto.CompanyDto;
 import com.spring.job_portal_backend.dto.JobDto;
 import com.spring.job_portal_backend.entity.Company;
@@ -21,7 +22,7 @@ public class CompanyServiceImpl implements ICompanyService {
 
     @Override
     public List<CompanyDto> getAllCompanies() {
-        List<Company> companyList = companyRepository.findAll();
+        List<Company> companyList = companyRepository.findAllCompaniesWithJobsByStatus(ApplicationConstants.ACTIVE_STATUS);
         return companyList.stream().map(this::convertCompanyToDto).collect(Collectors.toList());
     }
 
