@@ -77,27 +77,6 @@ public class AuthController {
     @PostMapping(path="/register/public", version = "1.0")
     public ResponseEntity<?> login(@RequestBody RegisterRequestDto requestDto) {
 
-        CompromisedPasswordDecision isCompromised = compromisedPasswordChecker.check(requestDto.password());
-
-        if (isCompromised.isCompromised()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(Map.of("password", "Choose a strong password"));
-        }
-
-        Optional<JobPortalUser> existingUser = jobPortalUserRepository.readUserByEmailOrMobileNumber(
-                requestDto.email(), requestDto.mobileNumber());
-        if (existingUser.isPresent()) {
-            Map<String, String> errors = new HashMap<>();
-            JobPortalUser jobPortalUser = existingUser.get();
-            if (jobPortalUser.getEmail().equalsIgnoreCase(requestDto.email())) {
-                errors.put("email", "Email is already registered");
-            }
-            if (jobPortalUser.getMobileNumber().equals(requestDto.mobileNumber())) {
-                errors.put("mobileNumber", "Mobile number is already registered");
-            }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
-        }
-
         JobPortalUser user = new JobPortalUser();
         BeanUtils.copyProperties(requestDto, user);
         Role role = roleRepository.findRoleByName(ApplicationConstants.ROLE_JOB_SEEKER)
@@ -106,5 +85,6 @@ public class AuthController {
         user.setPasswordHash(passwordEncoder.encode(requestDto.password()));
         jobPortalUserRepository.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).body("User is registered successfully");
+
     }
 }
