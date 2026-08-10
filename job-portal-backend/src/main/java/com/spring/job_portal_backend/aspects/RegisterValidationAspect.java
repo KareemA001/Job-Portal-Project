@@ -29,7 +29,7 @@ public class RegisterValidationAspect {
 
     @Before("""
         execution(* com.spring.job_portal_backend.auth.AuthController
-        .login(..))
+        .register(..))
         """)
     public void validateBeforeRegister(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();

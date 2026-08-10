@@ -75,7 +75,7 @@ public class AuthController {
     }
 
     @PostMapping(path="/register/public", version = "1.0")
-    public ResponseEntity<?> login(@RequestBody RegisterRequestDto requestDto) {
+    public ResponseEntity<?> register(@RequestBody RegisterRequestDto requestDto) {
 
         JobPortalUser user = new JobPortalUser();
         BeanUtils.copyProperties(requestDto, user);
