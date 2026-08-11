@@ -9,6 +9,8 @@ import com.spring.job_portal_backend.entity.Contact;
 import com.spring.job_portal_backend.repository.ContactRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +53,21 @@ public class ContactServiceImpl implements IContactService {
         List<Contact> contacts = contactRepository.findContactByStatus(ApplicationConstants.NEW_STATUS, sort);
         List<ContactResponseDto> contactResponseDto = contacts.stream().map(this::transformToDto)
                 .collect(Collectors.toList());
+        return contactResponseDto;
+    }
+
+    @Override
+    public Page<ContactResponseDto> findNewContactByPagingAndSorting(int index, int size
+            , String attribute, String direction) {
+
+        Sort sort = null;
+        if (direction.equalsIgnoreCase("asc"))
+            sort = sort.by(attribute).ascending();
+        else
+            sort = sort.by(attribute).descending();
+        PageRequest pageRequest = PageRequest.of(index, size, sort);
+        Page<Contact> contacts = contactRepository.findContactByStatus(ApplicationConstants.NEW_STATUS, pageRequest);
+        Page<ContactResponseDto> contactResponseDto = contacts.map(this::transformToDto);
         return contactResponseDto;
     }
 

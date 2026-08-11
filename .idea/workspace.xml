@@ -9,7 +9,6 @@
       <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/contact/service/IContactService.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/contact/service/IContactService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/contact/service/impl/ContactServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/contact/service/impl/ContactServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/repository/ContactRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/repository/ContactRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/security/PathConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/security/PathConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

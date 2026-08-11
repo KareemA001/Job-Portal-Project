@@ -5,6 +5,7 @@ import com.spring.job_portal_backend.dto.ContactRequestDto;
 import com.spring.job_portal_backend.dto.ContactResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +43,17 @@ public class ContactController {
 
         List<ContactResponseDto> contacts = contactService.findNewContactBySortingAndDirection(attribute, direction);
         return ResponseEntity.status(HttpStatus.OK).body(contacts);
+    }
+
+    @GetMapping(path="/page/admin", version = "1.0")
+    public ResponseEntity<Page<ContactResponseDto>> findNewContactByPagingAndSorting(
+            @RequestParam(defaultValue = "0") int index,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "createdAt") String attribute,
+            @RequestParam(defaultValue = "Acs") String direction) {
+        Page<ContactResponseDto> contactResponseDtoPage = contactService.findNewContactByPagingAndSorting(index, size,
+                attribute, direction);
+        return ResponseEntity.status(HttpStatus.OK).body(contactResponseDtoPage);
     }
 
 //    @GetMapping(path="public", version = "1.0")
