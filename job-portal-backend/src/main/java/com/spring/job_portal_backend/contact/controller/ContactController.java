@@ -1,5 +1,6 @@
 package com.spring.job_portal_backend.contact.controller;
 
+import com.spring.job_portal_backend.constants.ApplicationConstants;
 import com.spring.job_portal_backend.contact.service.impl.ContactServiceImpl;
 import com.spring.job_portal_backend.dto.ContactRequestDto;
 import com.spring.job_portal_backend.dto.ContactResponseDto;
@@ -54,6 +55,16 @@ public class ContactController {
         Page<ContactResponseDto> contactResponseDtoPage = contactService.findNewContactByPagingAndSorting(index, size,
                 attribute, direction);
         return ResponseEntity.status(HttpStatus.OK).body(contactResponseDtoPage);
+    }
+
+    @PatchMapping(path="/{id}/status/admin")
+    public ResponseEntity<String> updateMessageToClosed(@PathVariable Long id) {
+        boolean isUpdated = contactService.updateMessageToClosed(id, ApplicationConstants.CLOSED_STATUS);
+
+        if (isUpdated) {
+            return ResponseEntity.ok().body("The message status is updated successfully");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Message update not completed try again later");
     }
 
 //    @GetMapping(path="public", version = "1.0")

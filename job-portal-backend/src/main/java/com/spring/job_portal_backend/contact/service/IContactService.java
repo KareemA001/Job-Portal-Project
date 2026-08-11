@@ -16,4 +16,6 @@ public interface IContactService {
     List<ContactResponseDto> findNewContactBySortingAndDirection(String attribute, String direction);
 
     Page<ContactResponseDto> findNewContactByPagingAndSorting(int index, int size, String attribute, String direction);
+
+    boolean updateMessageToClosed(Long id, String closedStatus);
 }

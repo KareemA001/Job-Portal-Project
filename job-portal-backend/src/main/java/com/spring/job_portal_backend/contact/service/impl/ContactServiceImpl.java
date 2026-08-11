@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -69,6 +70,18 @@ public class ContactServiceImpl implements IContactService {
         Page<Contact> contacts = contactRepository.findContactByStatus(ApplicationConstants.NEW_STATUS, pageRequest);
         Page<ContactResponseDto> contactResponseDto = contacts.map(this::transformToDto);
         return contactResponseDto;
+    }
+
+    @Override
+    public boolean updateMessageToClosed(Long id, String closedStatus) {
+        Optional<Contact> message = contactRepository.findById(id);
+
+        if (message.isPresent()) {
+            message.get().setStatus(closedStatus);
+            contactRepository.save(message.get());
+            return true;
+        }
+        return false;
     }
 
     private Contact convertToEntity(ContactRequestDto contactRequestDto) {
