@@ -9,9 +9,10 @@ import com.spring.job_portal_backend.entity.Contact;
 import com.spring.job_portal_backend.repository.ContactRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,10 +32,26 @@ public class ContactServiceImpl implements IContactService {
 
     @Override
     public List<ContactResponseDto> fetchNewContactMsgs() {
-        List<Contact> contacts = contactRepository.findContactByStatus(ApplicationConstants.NEW_STATUS);
+//        List<Contact> contacts = contactRepository.findContactByStatus(ApplicationConstants.NEW_STATUS);
+        List<Contact> contacts = contactRepository.findContactByStatusOrderByCreatedAtAsc(ApplicationConstants.NEW_STATUS);
         List<ContactResponseDto> responseDto = contacts.stream().map(this::transformToDto)
                 .collect(Collectors.toList());
         return responseDto;
+    }
+
+    @Override
+    public List<ContactResponseDto> findNewContactBySortingAndDirection(String attribute, String direction) {
+        Sort sort = null;
+        if (direction.equalsIgnoreCase("asc"))
+            sort = sort.by(attribute).ascending();
+        else
+            sort = sort.by(attribute).descending();
+
+
+        List<Contact> contacts = contactRepository.findContactByStatus(ApplicationConstants.NEW_STATUS, sort);
+        List<ContactResponseDto> contactResponseDto = contacts.stream().map(this::transformToDto)
+                .collect(Collectors.toList());
+        return contactResponseDto;
     }
 
     private Contact convertToEntity(ContactRequestDto contactRequestDto) {

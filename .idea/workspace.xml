@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a496da2e-5f49-4f07-b64c-165b39f2d584" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/constants/ApplicationConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/constants/ApplicationConstants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/contact/controller/ContactController.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/contact/controller/ContactController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/contact/service/IContactService.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/contact/service/IContactService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/contact/service/impl/ContactServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/contact/service/impl/ContactServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/repository/ContactRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/repository/ContactRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/security/JobPortalSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/security/JobPortalSecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/security/PathConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/security/PathConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

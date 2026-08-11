@@ -35,6 +35,15 @@ public class ContactController {
         return ResponseEntity.status(HttpStatus.OK).body(contactResponseDto);
     }
 
+    @GetMapping(path="/sort/admin", version = "1.0")
+    public ResponseEntity<List<ContactResponseDto>> findContactBySortingAndDirection(
+            @RequestParam(defaultValue = "createdAt") String attribute,
+            @RequestParam(defaultValue = "Asc") String direction) {
+
+        List<ContactResponseDto> contacts = contactService.findNewContactBySortingAndDirection(attribute, direction);
+        return ResponseEntity.status(HttpStatus.OK).body(contacts);
+    }
+
 //    @GetMapping(path="public", version = "1.0")
 //    public ResponseEntity<String> fetchOpenContacts(@RequestParam
 //                                                    @Validated @NotBlank(message = "Status can not be blank")
