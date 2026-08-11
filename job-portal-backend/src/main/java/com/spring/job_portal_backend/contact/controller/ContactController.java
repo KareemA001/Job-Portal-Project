@@ -2,11 +2,14 @@ package com.spring.job_portal_backend.contact.controller;
 
 import com.spring.job_portal_backend.contact.service.impl.ContactServiceImpl;
 import com.spring.job_portal_backend.dto.ContactRequestDto;
+import com.spring.job_portal_backend.dto.ContactResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path= "/contact")
@@ -24,6 +27,12 @@ public class ContactController {
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("Sorry, try again");
+    }
+
+    @GetMapping(path="/admin", version = "1.0")
+    public ResponseEntity<List<ContactResponseDto>> fetchNewContactMsgs() {
+        List<ContactResponseDto> contactResponseDto = contactService.fetchNewContactMsgs();
+        return ResponseEntity.status(HttpStatus.OK).body(contactResponseDto);
     }
 
 //    @GetMapping(path="public", version = "1.0")

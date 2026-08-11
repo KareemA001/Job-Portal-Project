@@ -34,11 +34,14 @@ public class JobPortalSecurityConfig {
     private final List<String> publicPaths;
     @Qualifier(value="securedPaths")
     private final List<String> securedPaths;
+    @Qualifier(value="adminPaths")
+    private final List<String> adminPaths;
 
     @Bean
     SecurityFilterChain customSecurityFilterChain(HttpSecurity http) {
         return http.authorizeHttpRequests(requests -> {
                     publicPaths.forEach(path -> requests.requestMatchers(path).permitAll());
+                    adminPaths.forEach(path -> requests.requestMatchers(path).hasRole("ADMIN"));
                     securedPaths.forEach(path -> requests.requestMatchers(path).authenticated());
                     requests.anyRequest().denyAll();
                 })
