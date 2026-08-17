@@ -7,12 +7,14 @@ import com.spring.job_portal_backend.dto.ContactRequestDto;
 import com.spring.job_portal_backend.dto.ContactResponseDto;
 import com.spring.job_portal_backend.entity.Contact;
 import com.spring.job_portal_backend.repository.ContactRepository;
+import com.spring.job_portal_backend.utility.ApplicationUtility;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
@@ -21,11 +23,13 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ContactServiceImpl implements IContactService {
 
     private final ContactRepository contactRepository;
 
     @Override
+    @Transactional
     public boolean saveContact(ContactRequestDto contactRequestDto) {
         Contact contact = contactRepository.save(convertToEntity(contactRequestDto));
         if (contact != null && contact.getId() != null)
@@ -73,15 +77,10 @@ public class ContactServiceImpl implements IContactService {
     }
 
     @Override
+    @Transactional
     public boolean updateMessageToClosed(Long id, String closedStatus) {
-        Optional<Contact> message = contactRepository.findById(id);
-
-        if (message.isPresent()) {
-            message.get().setStatus(closedStatus);
-            contactRepository.save(message.get());
-            return true;
-        }
-        return false;
+        int numberOfRows = contactRepository.updateStatusById(closedStatus, id, ApplicationUtility.getLoggedInUser());
+        return numberOfRows > 0;
     }
 
     private Contact convertToEntity(ContactRequestDto contactRequestDto) {
