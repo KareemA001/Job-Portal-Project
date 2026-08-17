@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,6 +42,25 @@ public class CompanyServiceImpl implements ICompanyService {
     public List<CompanyDto> getAllCompaniesForAdmin() {
         List<Company> companies = this.companyRepository.findAll();
         return companies.stream().map(this::convertCompanyToDto).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public boolean updateCompany(Long id, CompanyDto companyDto) {
+        Company company = convertCompanyDtoToCompany(companyDto);
+        Optional<Company> returnedCompany = companyRepository.findById(id);
+        if (returnedCompany.isPresent()) {
+            company.setId(id);
+            companyRepository.save(company);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    @Transactional
+    public void deleteCompanyById(Long id) {
+        companyRepository.deleteById(id);
     }
 
     private Company convertCompanyDtoToCompany(CompanyDto companyDto) {
