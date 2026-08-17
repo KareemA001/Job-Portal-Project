@@ -5,10 +5,7 @@ import com.spring.job_portal_backend.user.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.Optional;
@@ -30,4 +27,16 @@ public class UserController {
         return ResponseEntity.ok(userOptional.get());
     }
 
+    @PatchMapping(path="/{userId}/role/employer/admin", version = "1.0")
+    public ResponseEntity<?> elevateToEmployer(@PathVariable Long userId) {
+        UserDto updatedUser = userService.promoteToEmployer(userId);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @PatchMapping(path="/{userId}/company/{companyId}/admin", version = "1.0")
+    public ResponseEntity<?> assignCompanyToEmployer(
+            @PathVariable Long userId, @PathVariable Long companyId) {
+        UserDto updatedUser = userService.assignCompanyToEmployer(userId, companyId);
+        return ResponseEntity.ok(updatedUser);
+    }
 }

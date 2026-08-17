@@ -7,4 +7,8 @@ import java.util.Optional;
 public interface IUserService {
 
     Optional<UserDto> searchUserByEmail(String email);
+
+    UserDto promoteToEmployer(Long userId);
+
+    UserDto assignCompanyToEmployer(Long userId, Long companyId);
 }
