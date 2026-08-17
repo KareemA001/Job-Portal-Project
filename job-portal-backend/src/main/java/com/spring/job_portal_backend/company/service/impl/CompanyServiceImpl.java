@@ -31,10 +31,16 @@ public class CompanyServiceImpl implements ICompanyService {
 
     @Override
     @Transactional
-    public boolean creatCompany(CompanyDto companyDto) {
+    public boolean createCompany(CompanyDto companyDto) {
         Company company = convertCompanyDtoToCompany(companyDto);
         company = companyRepository.save(company);
         return company.getId() != null && company.getId() > 0;
+    }
+
+    @Override
+    public List<CompanyDto> getAllCompaniesForAdmin() {
+        List<Company> companies = this.companyRepository.findAll();
+        return companies.stream().map(this::convertCompanyToDto).collect(Collectors.toList());
     }
 
     private Company convertCompanyDtoToCompany(CompanyDto companyDto) {

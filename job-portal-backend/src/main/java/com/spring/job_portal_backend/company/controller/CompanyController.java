@@ -6,7 +6,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,12 +27,20 @@ public class CompanyController {
 
     @PostMapping(path="/admin", version="1.0")
     public ResponseEntity<String> createCompany(@RequestBody @Valid CompanyDto companyDto) {
-        boolean isCreated = companyService.creatCompany(companyDto);
+        boolean isCreated = companyService.createCompany(companyDto);
 
         if (isCreated) {
             return ResponseEntity.status(HttpStatus.CREATED).body("Creating a new company is completed successfully");
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Request processing failed");
+    }
+
+    @GetMapping(path="/admin", version="1.0")
+    public ResponseEntity<List<CompanyDto>> getAllCompaniesForAdmin() {
+        List<CompanyDto> companyDtoList = companyService.getAllCompaniesForAdmin();
+        if (companyDtoList != null)
+            return ResponseEntity.ok(companyDtoList);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
 
 //    @GetMapping(path="public", version = "2.0")

@@ -8,5 +8,7 @@ public interface ICompanyService {
 
     List<CompanyDto> getAllCompanies();
 
-    boolean creatCompany(CompanyDto companyDto);
+    boolean createCompany(CompanyDto companyDto);
+
+    List<CompanyDto> getAllCompaniesForAdmin();
 }
