@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a496da2e-5f49-4f07-b64c-165b39f2d584" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/company/controller/CompanyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/company/controller/CompanyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/company/service/ICompanyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/company/service/ICompanyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/company/service/impl/CompanyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/company/service/impl/CompanyServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/security/PathConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/security/PathConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/repository/JobPortalUserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/repository/JobPortalUserRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,9 +17,9 @@
       <list>
         <option value="Dockerfile" />
         <option value="package-info" />
-        <option value="Interface" />
         <option value="com.intellij.jpb.JpaRepository" />
         <option value="Record" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>

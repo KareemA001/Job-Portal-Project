@@ -10,4 +10,6 @@ public interface JobPortalUserRepository extends JpaRepository<JobPortalUser, Lo
     Optional<JobPortalUser> readUserByEmailOrMobileNumber(String email, String mobilNumber);
 
     Optional<JobPortalUser> findUserByEmail(String email);
+
+    Optional<JobPortalUser> findJobPortalUserByEmail(String email);
 }
