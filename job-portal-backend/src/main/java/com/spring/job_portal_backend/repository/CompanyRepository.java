@@ -2,6 +2,7 @@ package com.spring.job_portal_backend.repository;
 
 import com.spring.job_portal_backend.entity.Company;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,13 +15,13 @@ import java.util.List;
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Long> {
 
-
+    @Cacheable("jobs")
     @Query("SELECT DISTINCT c FROM Company c JOIN FETCH c.jobs j WHERE j.status =:status ")
     List<Company> findAllCompaniesWithJobsByStatus(@Param("status") String status);
 
-    @Query(value = "SELECT DISTINCT c.* FROM companies c JOIN jobs j ON c.id = j.company_id WHERE j.status = ?1",
-            nativeQuery = true)
-    List<Company> findAllCompaniesWithJobsByStatusNative(String status);
+//    @Query(value = "SELECT DISTINCT c.* FROM companies c JOIN jobs j ON c.id = j.company_id WHERE j.status = ?1",
+//            nativeQuery = true)
+//    List<Company> findAllCompaniesWithJobsByStatusNative(String status);
 
     @CacheEvict(value = "companies", allEntries = true)
     void deleteById(Long id);

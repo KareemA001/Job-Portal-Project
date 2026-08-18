@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,7 +27,7 @@ public class CompanyServiceImpl implements ICompanyService {
 
     @Override
     public List<CompanyDto> getAllCompanies() {
-        List<Company> companyList = companyRepository.findAllCompaniesWithJobsByStatus(ApplicationConstants.ACTIVE_STATUS);
+        List<Company> companyList = companyRepository.findAllCompaniesWithJobsByStatus(ApplicationConstants.NEW_STATUS);
         return companyList.stream().map(this::convertCompanyToDto).collect(Collectors.toList());
     }
 
