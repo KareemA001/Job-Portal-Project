@@ -9,6 +9,8 @@ import com.spring.job_portal_backend.repository.CompanyRepository;
 import com.spring.job_portal_backend.company.service.ICompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +41,7 @@ public class CompanyServiceImpl implements ICompanyService {
     }
 
     @Override
+    @Cacheable(cacheNames = "companies")
     public List<CompanyDto> getAllCompaniesForAdmin() {
         List<Company> companies = this.companyRepository.findAll();
         return companies.stream().map(this::convertCompanyToDto).collect(Collectors.toList());
@@ -46,15 +49,15 @@ public class CompanyServiceImpl implements ICompanyService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "companies", allEntries = true)
     public boolean updateCompany(Long id, CompanyDto companyDto) {
-        Company company = convertCompanyDtoToCompany(companyDto);
-        Optional<Company> returnedCompany = companyRepository.findById(id);
-        if (returnedCompany.isPresent()) {
-            company.setId(id);
-            companyRepository.save(company);
-            return true;
-        }
-        return false;
+        int updatedRecords = companyRepository.updateCompanyDetails(
+                id,companyDto.name(),companyDto.logo(),
+                companyDto.industry(),companyDto.size(),companyDto.rating(),
+                companyDto.locations(),companyDto.founded(),companyDto.description(),
+                companyDto.employees(),companyDto.website()
+        );
+        return updatedRecords > 0;
     }
 
     @Override
