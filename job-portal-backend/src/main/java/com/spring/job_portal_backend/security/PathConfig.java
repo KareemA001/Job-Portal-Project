@@ -51,7 +51,8 @@ public class PathConfig {
     @Bean(name="employerPaths")
     public List<String> employerPaths() {
         return List.of(
-                "/api/jobs/employer"
+                "/api/jobs/employer",
+                "/api/{jobId}/status/employer"
         );
     }
 }
