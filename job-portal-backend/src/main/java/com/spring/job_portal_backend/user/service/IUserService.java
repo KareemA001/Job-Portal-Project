@@ -17,4 +17,10 @@ public interface IUserService {
 
     ProfileDto createOrUpdateUserProfile(String userEmail, String profileJson, MultipartFile profilePhoto, MultipartFile resume)
             throws JsonProcessingException;
+
+    ProfileDto getProfile(String userEmail);
+
+    ProfileDto getProfilePicture(String userEmail);
+
+    ProfileDto getProfileResume(String userEmail);
 }

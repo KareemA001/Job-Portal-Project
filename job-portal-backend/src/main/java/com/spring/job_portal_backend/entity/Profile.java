@@ -53,10 +53,12 @@ public class Profile extends BaseEntity {
     @Column(name = "profile_picture_name")
     private String profilePictureName;
 
+    @Lob
     @Size(max = 100)
     @Column(name = "profile_picture_type", length = 100)
     private String profilePictureType;
 
+    @Lob
     @Column(name = "resume")
     private byte[] resume;
 

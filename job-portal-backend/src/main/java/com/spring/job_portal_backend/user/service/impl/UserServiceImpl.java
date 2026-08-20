@@ -106,6 +106,40 @@ public class UserServiceImpl implements IUserService {
         return mapToProfileDto(savedProfile, false);
     }
 
+    @Override
+    public ProfileDto getProfile(String userEmail) {
+//        Profile returnedProfile = profileRepository.findProfileByUsername(userEmail)
+//                .orElseThrow(() -> new EntityNotFoundException(There is no profile for this user + userEmail));
+        JobPortalUser user = userRepository.findJobPortalUserByEmail(userEmail)
+                .orElseThrow(() -> new EntityNotFoundException("There is no profile for this user "+ userEmail));
+        if (user.getProfile() == null) {
+            return null;
+        }
+        return mapToProfileDto(user.getProfile(), false);
+    }
+
+    @Override
+    public ProfileDto getProfilePicture(String userEmail) {
+
+        JobPortalUser user = userRepository.findJobPortalUserByEmail(userEmail)
+                .orElseThrow(() -> new EntityNotFoundException("There is no profile for this user "+ userEmail));
+        if (user.getProfile() == null) {
+            return null;
+        }
+        return mapToProfileDto(user.getProfile(), true);
+    }
+
+    @Override
+    public ProfileDto getProfileResume(String userEmail) {
+
+        JobPortalUser user = userRepository.findJobPortalUserByEmail(userEmail)
+                .orElseThrow(() -> new EntityNotFoundException("There is no profile for this user "+ userEmail));
+        if (user.getProfile() == null) {
+            return null;
+        }
+        return mapToProfileDto(user.getProfile(), true);
+    }
+
     private UserDto convertToUserDto(JobPortalUser user) {
         UserDto dto = new UserDto();
         BeanUtils.copyProperties(user, dto);
