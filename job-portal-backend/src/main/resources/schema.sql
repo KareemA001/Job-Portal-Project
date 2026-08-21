@@ -93,3 +93,11 @@ CREATE TABLE IF NOT EXISTS profiles (
     updated_by VARCHAR(20) DEFAULT NULL,
     CONSTRAINT fk_profile_user FOREIGN KEY (user_id) REFERENCES users(id)
     );
+
+CREATE TABLE IF NOT EXISTS saved_jobs (
+    user_id BIGINT NOT NULL,
+    job_id  BIGINT NOT NULL,
+    PRIMARY KEY (user_id, job_id),
+    CONSTRAINT fk_saved_jobs_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT fk_saved_jobs_job FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE
+    );

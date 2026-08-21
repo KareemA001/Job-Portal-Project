@@ -1,6 +1,7 @@
 package com.spring.job_portal_backend.user.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.spring.job_portal_backend.dto.JobDto;
 import com.spring.job_portal_backend.dto.ProfileDto;
 import com.spring.job_portal_backend.dto.UserDto;
 import com.spring.job_portal_backend.user.service.IUserService;
@@ -13,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -93,5 +95,26 @@ public class UserController {
         headers.setContentLength(resume.length);
         headers.setContentDispositionFormData("attachment", profileDto.resumeName());
         return new ResponseEntity(resume, headers, HttpStatus.OK);
+    }
+
+    @PostMapping(path="/save-job/{jobId}/jobseeker", version = "1.0")
+    public ResponseEntity<JobDto> saveJob(@PathVariable(name = "jobId") Long id, Authentication authentication) {
+        String userEmail = authentication.getName();
+        JobDto savedJob = userService.saveJob(userEmail, id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedJob);
+    }
+
+    @DeleteMapping(path="/unsave-job/{jobId}/jobseeker", version = "1.0")
+    public ResponseEntity<String> unsaveJob(@PathVariable(name = "jobId") Long id, Authentication authentication) {
+        String userEmail = authentication.getName();
+        userService.unsaveJob(userEmail, id);
+        return ResponseEntity.ok("Job is unsaved successfully");
+    }
+
+    @GetMapping(path="/savedJobs/jobseeker", version = "1.0")
+    public ResponseEntity<List<JobDto>> getAllSavedJobs(Authentication authentication) {
+        String userEmail = authentication.getName();
+        List<JobDto> savedJobs = userService.getAllSavedJobs(userEmail);
+        return ResponseEntity.ok(savedJobs);
     }
 }

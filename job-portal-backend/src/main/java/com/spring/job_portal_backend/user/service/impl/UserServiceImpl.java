@@ -3,17 +3,13 @@ package com.spring.job_portal_backend.user.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.job_portal_backend.constants.ApplicationConstants;
+import com.spring.job_portal_backend.dto.JobDto;
 import com.spring.job_portal_backend.dto.ProfileDto;
 import com.spring.job_portal_backend.dto.UserDto;
-import com.spring.job_portal_backend.entity.Company;
-import com.spring.job_portal_backend.entity.JobPortalUser;
-import com.spring.job_portal_backend.entity.Profile;
-import com.spring.job_portal_backend.entity.Role;
-import com.spring.job_portal_backend.repository.CompanyRepository;
-import com.spring.job_portal_backend.repository.JobPortalUserRepository;
-import com.spring.job_portal_backend.repository.ProfileRepository;
-import com.spring.job_portal_backend.repository.RoleRepository;
+import com.spring.job_portal_backend.entity.*;
+import com.spring.job_portal_backend.repository.*;
 import com.spring.job_portal_backend.user.service.IUserService;
+import com.spring.job_portal_backend.utility.ApplicationUtility;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -22,7 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +31,7 @@ public class UserServiceImpl implements IUserService {
     private final RoleRepository roleRepository;
     private final CompanyRepository companyRepository;
     private final ProfileRepository profileRepository;
+    private final JobRepository jobRepository;
 
     @Override
     public Optional<UserDto> searchUserByEmail(String email) {
@@ -138,6 +137,33 @@ public class UserServiceImpl implements IUserService {
             return null;
         }
         return mapToProfileDto(user.getProfile(), true);
+    }
+
+    @Override
+    @Transactional
+    public JobDto saveJob(String userEmail, Long id) {
+        JobPortalUser user = userRepository.findUserByEmail(userEmail)
+                .orElseThrow(() -> new EntityNotFoundException());
+        Job job = jobRepository.findById(id).orElseThrow(() -> new EntityNotFoundException());
+        user.getSavedJobs().add(job);
+        return ApplicationUtility.convertJobToDto(job);
+    }
+
+    @Override
+    @Transactional
+    public void unsaveJob(String userEmail, Long id) {
+        JobPortalUser user = userRepository.findUserByEmail(userEmail)
+                .orElseThrow(() -> new EntityNotFoundException());
+        Job job = jobRepository.findById(id).orElseThrow(() -> new EntityNotFoundException());
+        user.getSavedJobs().remove(job);
+    }
+
+    @Override
+    public List<JobDto> getAllSavedJobs(String userEmail) {
+        JobPortalUser user = userRepository.findUserByEmail(userEmail)
+                .orElseThrow(() -> new EntityNotFoundException());
+        return user.getSavedJobs()
+                .stream().map(job -> ApplicationUtility.convertJobToDto(job)).collect(Collectors.toList());
     }
 
     private UserDto convertToUserDto(JobPortalUser user) {

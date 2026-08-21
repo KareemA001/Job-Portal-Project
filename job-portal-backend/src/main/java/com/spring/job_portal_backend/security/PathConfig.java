@@ -61,7 +61,10 @@ public class PathConfig {
         return List.of(
                 "/api/users/profile/jobseeker",
                 "/api/users/profile/picture/jobseeker",
-                "/api/users/profile/resume/jobseeker"
+                "/api/users/profile/resume/jobseeker",
+                "/api/users//save-job/{jobId}/jobseeker",
+                "/api/users/unsave-job/{jobId}/jobseeker",
+                "/api/users/savedJobs/jobseeker"
         );
     }
 }
