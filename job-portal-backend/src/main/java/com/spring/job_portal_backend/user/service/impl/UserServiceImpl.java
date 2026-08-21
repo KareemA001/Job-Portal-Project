@@ -193,6 +193,33 @@ public class UserServiceImpl implements IUserService {
         return mapToJobApplicationDto(savedJobApplication);
     }
 
+    @Override
+    @Transactional
+    public void withdrawApplication(String userEmail, Long jobId) {
+        JobPortalUser user = userRepository.findUserByEmail(userEmail)
+                .orElseThrow(() -> new EntityNotFoundException());
+        if (!jobApplicationRepository.existsByUserIdAndJobId(user.getId(),jobId)) {
+            throw new RuntimeException("You have not applied for this job");
+        }
+
+        jobApplicationRepository.deleteByUserIdAndJobId(user.getId(), jobId);
+
+        Job job = jobRepository.findById(jobId)
+                .orElseThrow(() -> new RuntimeException("Job not found with ID: " + jobId));
+        if (job.getApplicationsCount() != null && job.getApplicationsCount() > 0) {
+            job.setApplicationsCount(job.getApplicationsCount() - 1);
+            jobRepository.save(job);
+        }
+    }
+
+    @Override
+    public List<JobApplicationDto> getJobSeekerApplications(String userEmail) {
+        JobPortalUser user = userRepository.findJobPortalUserByEmail(userEmail)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with email: " + userEmail));
+        return user.getJobApplications().stream().map(this::mapToJobApplicationDto)
+                .collect(Collectors.toList());
+    }
+
     private JobApplicationDto mapToJobApplicationDto(JobApplication savedJobApplication) {
         ProfileDto profileDto = null;
         Profile profile = savedJobApplication.getUser().getProfile();

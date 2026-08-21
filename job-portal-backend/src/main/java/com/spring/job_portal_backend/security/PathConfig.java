@@ -64,7 +64,9 @@ public class PathConfig {
                 "/api/users/profile/resume/jobseeker",
                 "/api/users//save-job/{jobId}/jobseeker",
                 "/api/users/unsave-job/{jobId}/jobseeker",
-                "/api/users/savedJobs/jobseeker"
+                "/api/users/savedJobs/jobseeker",
+                "/api/users/job-application/jobseeker",
+                "/api/users/job-application/{jobId}/jobseeker"
         );
     }
 }

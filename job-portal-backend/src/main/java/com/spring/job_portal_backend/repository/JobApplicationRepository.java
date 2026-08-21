@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface JobApplicationRepository extends JpaRepository<JobApplication, Long> {
 
     boolean existsByUserIdAndJobId(Long userId, Long jobId);
+
+    void deleteByUserIdAndJobId(Long userId, Long jobId);
 }

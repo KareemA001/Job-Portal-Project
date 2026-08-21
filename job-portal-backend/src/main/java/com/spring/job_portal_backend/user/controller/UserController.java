@@ -126,4 +126,21 @@ public class UserController {
         JobApplicationDto jobApplicationDto = userService.applayForJob(userEmail, applyJobRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(jobApplicationDto);
     }
+
+    @DeleteMapping(path="/job-application/{jobId}/jobseeker")
+    public ResponseEntity<String> withdrawApplication(
+            @PathVariable(name = "jobId") Long jobId,
+            Authentication authentication) {
+
+        String userEmail = authentication.getName();
+        userService.withdrawApplication(userEmail, jobId);
+        return ResponseEntity.ok("Application is withdrawn successfully");
+    }
+
+    @GetMapping(path="/job-application/jobseeker", version = "1.0")
+    public ResponseEntity<List<JobApplicationDto>> getJobSeekerApplications(Authentication authentication) {
+        String userEmail = authentication.getName();
+        List<JobApplicationDto> applications = userService.getJobSeekerApplications(userEmail);
+        return ResponseEntity.ok(applications);
+    }
 }

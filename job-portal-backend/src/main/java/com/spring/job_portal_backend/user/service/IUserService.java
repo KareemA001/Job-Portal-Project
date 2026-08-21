@@ -31,4 +31,8 @@ public interface IUserService {
     List<JobDto> getAllSavedJobs(String userEmail);
 
     JobApplicationDto applayForJob(String userEmail, ApplyJobRequestDto applyJobRequestDto);
+
+    void withdrawApplication(String userEmail, Long jobId);
+
+    List<JobApplicationDto> getJobSeekerApplications(String userEmail);
 }
