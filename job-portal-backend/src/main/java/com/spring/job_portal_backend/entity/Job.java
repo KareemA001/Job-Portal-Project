@@ -12,6 +12,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
@@ -126,4 +127,7 @@ public class Job extends BaseEntity{
 
     @ManyToMany(mappedBy = "savedJobs")
     private Set<JobPortalUser> savedByUsers = new HashSet<>();
+
+    @OneToMany(mappedBy = "job")
+    private Set<JobApplication> jobApplications = new LinkedHashSet<>();
 }

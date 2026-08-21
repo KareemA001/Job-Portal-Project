@@ -1,9 +1,7 @@
 package com.spring.job_portal_backend.user.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.spring.job_portal_backend.dto.JobDto;
-import com.spring.job_portal_backend.dto.ProfileDto;
-import com.spring.job_portal_backend.dto.UserDto;
+import com.spring.job_portal_backend.dto.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -31,4 +29,6 @@ public interface IUserService {
     void unsaveJob(String userEmail, Long id);
 
     List<JobDto> getAllSavedJobs(String userEmail);
+
+    JobApplicationDto applayForJob(String userEmail, ApplyJobRequestDto applyJobRequestDto);
 }

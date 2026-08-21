@@ -9,6 +9,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Getter
@@ -61,4 +62,7 @@ public class JobPortalUser extends BaseEntity{
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "job_id"))
     private Set<Job> savedJobs = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<JobApplication> jobApplications = new LinkedHashSet<>();
 }

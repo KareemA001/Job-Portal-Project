@@ -1,10 +1,9 @@
 package com.spring.job_portal_backend.user.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.spring.job_portal_backend.dto.JobDto;
-import com.spring.job_portal_backend.dto.ProfileDto;
-import com.spring.job_portal_backend.dto.UserDto;
+import com.spring.job_portal_backend.dto.*;
 import com.spring.job_portal_backend.user.service.IUserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -116,5 +115,15 @@ public class UserController {
         String userEmail = authentication.getName();
         List<JobDto> savedJobs = userService.getAllSavedJobs(userEmail);
         return ResponseEntity.ok(savedJobs);
+    }
+
+    @PostMapping(path="/job-application/jobseeker", version = "1.0")
+    public ResponseEntity<JobApplicationDto> applyForJob(
+            @RequestBody @Valid ApplyJobRequestDto applyJobRequestDto,
+            Authentication authentication) {
+
+        String userEmail = authentication.getName();
+        JobApplicationDto jobApplicationDto = userService.applayForJob(userEmail, applyJobRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(jobApplicationDto);
     }
 }

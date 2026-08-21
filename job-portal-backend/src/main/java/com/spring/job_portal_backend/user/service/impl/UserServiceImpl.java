@@ -3,9 +3,7 @@ package com.spring.job_portal_backend.user.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.job_portal_backend.constants.ApplicationConstants;
-import com.spring.job_portal_backend.dto.JobDto;
-import com.spring.job_portal_backend.dto.ProfileDto;
-import com.spring.job_portal_backend.dto.UserDto;
+import com.spring.job_portal_backend.dto.*;
 import com.spring.job_portal_backend.entity.*;
 import com.spring.job_portal_backend.repository.*;
 import com.spring.job_portal_backend.user.service.IUserService;
@@ -18,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,6 +31,7 @@ public class UserServiceImpl implements IUserService {
     private final CompanyRepository companyRepository;
     private final ProfileRepository profileRepository;
     private final JobRepository jobRepository;
+    private final JobApplicationRepository jobApplicationRepository;
 
     @Override
     public Optional<UserDto> searchUserByEmail(String email) {
@@ -164,6 +164,70 @@ public class UserServiceImpl implements IUserService {
                 .orElseThrow(() -> new EntityNotFoundException());
         return user.getSavedJobs()
                 .stream().map(job -> ApplicationUtility.convertJobToDto(job)).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public JobApplicationDto applayForJob(String userEmail, ApplyJobRequestDto applyJobRequestDto) {
+        JobPortalUser user = userRepository.findUserByEmail(userEmail)
+                .orElseThrow(() -> new EntityNotFoundException());
+        Long jobId = applyJobRequestDto.jobId();
+
+        if (jobApplicationRepository.existsByUserIdAndJobId(user.getId(),jobId)) {
+            throw new RuntimeException("You have applied for this job before");
+        }
+
+        Job job = jobRepository.findById(jobId)
+                .orElseThrow(() -> new EntityNotFoundException("There is no such a job to apply for"));
+        JobApplication jobApplication = new JobApplication();
+        jobApplication.setUser(user);
+        jobApplication.setJob(job);
+        jobApplication.setAppliedAt(Instant.now());
+        jobApplication.setStatus(ApplicationConstants.PENDING_STATUS);
+        jobApplication.setCoverLetter(applyJobRequestDto.coverLetter());
+        JobApplication savedJobApplication = jobApplicationRepository.save(jobApplication);
+
+        job.setApplicationsCount(job.getApplicationsCount() != null ? job.getApplicationsCount() + 1 : 1);
+        jobRepository.save(job);
+
+        return mapToJobApplicationDto(savedJobApplication);
+    }
+
+    private JobApplicationDto mapToJobApplicationDto(JobApplication savedJobApplication) {
+        ProfileDto profileDto = null;
+        Profile profile = savedJobApplication.getUser().getProfile();
+        if (profile != null) {
+            profileDto = new ProfileDto(
+                    profile.getId(),
+                    profile.getUser().getId(),
+                    profile.getJobTitle(),
+                    profile.getLocation(),
+                    profile.getExperienceLevel(),
+                    profile.getProfessionalBio(),
+                    profile.getPortfolioWebsite(),
+                    profile.getProfilePicture(),
+                    profile.getProfilePictureName(),
+                    profile.getProfilePictureType(),
+                    profile.getResume(),
+                    profile.getResumeName(),
+                    profile.getResumeType(),
+                    profile.getCreatedAt(),
+                    profile.getUpdatedAt()
+            );
+        }
+        return new JobApplicationDto(
+                savedJobApplication.getId(),
+                savedJobApplication.getUser().getId(),
+                savedJobApplication.getUser().getName(),
+                savedJobApplication.getUser().getEmail(),
+                savedJobApplication.getUser().getMobileNumber(),
+                profileDto,
+                ApplicationUtility.convertJobToDto(savedJobApplication.getJob()),
+                savedJobApplication.getAppliedAt(),
+                savedJobApplication.getStatus(),
+                savedJobApplication.getCoverLetter(),
+                savedJobApplication.getNotes()
+        );
     }
 
     private UserDto convertToUserDto(JobPortalUser user) {
