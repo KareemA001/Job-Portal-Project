@@ -2,7 +2,7 @@ package com.spring.job_portal_backend.security;
 
 
 import com.spring.job_portal_backend.security.filter.JwtTokenValidationFilter;
-import com.spring.job_portal_backend.utility.CorsProperties;
+import com.spring.job_portal_backend.security.util.CorsProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
