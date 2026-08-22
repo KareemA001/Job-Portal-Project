@@ -2,6 +2,7 @@ package com.spring.job_portal_backend.security;
 
 
 import com.spring.job_portal_backend.security.filter.JwtTokenValidationFilter;
+import com.spring.job_portal_backend.utility.CorsProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -41,6 +42,7 @@ public class JobPortalSecurityConfig {
     @Qualifier(value = "jobseekerPaths")
     private final List<String> jobseekerPaths;
 
+    private final CorsProperties corsProperties;
     @Bean
     SecurityFilterChain customSecurityFilterChain(HttpSecurity http) {
         return http.authorizeHttpRequests(requests -> {
@@ -65,11 +67,11 @@ public class JobPortalSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
-        config.setAllowedMethods(Collections.singletonList("*"));
-        config.setAllowedHeaders(Collections.singletonList("*"));
-        config.setAllowCredentials(true);
-        config.setMaxAge(3600L);
+        config.setAllowedOrigins(corsProperties.getAllowedOrigins());
+        config.setAllowedMethods(corsProperties.getAllowedMethods());
+        config.setAllowedHeaders(corsProperties.getAllowedHeaders());
+        config.setAllowCredentials(corsProperties.getAllowedCredentials());
+        config.setMaxAge(corsProperties.getMaxAge());
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
