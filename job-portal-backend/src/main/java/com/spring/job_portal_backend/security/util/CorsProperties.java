@@ -1,4 +1,4 @@
-package com.spring.job_portal_backend.utility;
+package com.spring.job_portal_backend.security.util;
 
 import lombok.Getter;
 import lombok.Setter;
