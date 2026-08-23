@@ -1,6 +1,8 @@
 package com.spring.job_portal_backend.job.controller;
 
+import com.spring.job_portal_backend.dto.JobApplicationDto;
 import com.spring.job_portal_backend.dto.JobDto;
+import com.spring.job_portal_backend.dto.UpdateJobApplicationDto;
 import com.spring.job_portal_backend.job.service.IJobService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,11 +31,11 @@ public class JobController {
 
     @PatchMapping(path="/{jobId}/status/employer")
     public ResponseEntity<?> updateJobStatus(@PathVariable(name = "jobId") Long jobId,
-                                             @RequestBody Map<String, String> requetBody,
+                                             @RequestBody Map<String, String> requestBody,
                                              Authentication authentication) {
 
         String employerEmail = authentication.getName();
-        String jobStatus = requetBody.get("status");
+        String jobStatus = requestBody.get("status");
 
         if (jobStatus == null || jobStatus.trim().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -49,5 +51,21 @@ public class JobController {
         String employerEmail = authentication.getName();
         JobDto createdJob = jobService.createJob(jobDto, employerEmail);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdJob);
+    }
+
+    @GetMapping(path= "/applications/{jobId}/employer", version = "1.0")
+    public ResponseEntity<List<JobApplicationDto>> getApplicationsByJobForEmployer(
+            @PathVariable Long jobId) {
+        List<JobApplicationDto> applications = jobService.getApplicationsByJobForEmployer(jobId);
+        return ResponseEntity.ok(applications);
+    }
+
+    @PatchMapping(path="/applications/employer", version = "1.0")
+    public ResponseEntity<String> updatedJobApplication(
+            @RequestBody @Valid UpdateJobApplicationDto updateJobApplicationDto) {
+        boolean isUpdated = jobService.updateJobApplication(updateJobApplicationDto);
+        if (isUpdated)
+            return ResponseEntity.ok("Application is updated successfully");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update the application");
     }
 }

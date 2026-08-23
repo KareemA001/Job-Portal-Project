@@ -5,7 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a496da2e-5f49-4f07-b64c-165b39f2d584" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/security/CustomUsernamePwdAuthAProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/security/CustomUsernamePwdAuthAProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/entity/JobApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/entity/JobApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/job/controller/JobController.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/job/controller/JobController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/job/service/IJobService.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/job/service/IJobService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/job/service/impl/JobService.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/job/service/impl/JobService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/repository/JobApplicationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/repository/JobApplicationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/security/PathConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/security/PathConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/utility/ApplicationUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/job-portal-backend/src/main/java/com/spring/job_portal_backend/utility/ApplicationUtility.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,8 +25,9 @@
         <option value="package-info" />
         <option value="com.intellij.jpb.JpaRepository" />
         <option value="Interface" />
-        <option value="Record" />
         <option value="Class" />
+        <option value="Record" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -51,7 +58,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "Spring Boot.JobPortalBackendApplication.executor": "Debug",
+    "Spring Boot.JobPortalBackendApplication.executor": "Run",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "D:/Examples-And-Projects/job-portal-project-/job-portal-project/job-portal-backend/src/main/resources",

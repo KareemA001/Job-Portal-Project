@@ -1,9 +1,12 @@
 package com.spring.job_portal_backend.utility;
 
-import com.spring.job_portal_backend.constants.ApplicationConstants;
+import com.spring.job_portal_backend.dto.JobApplicationDto;
 import com.spring.job_portal_backend.dto.JobDto;
+import com.spring.job_portal_backend.dto.ProfileDto;
 import com.spring.job_portal_backend.entity.Job;
+import com.spring.job_portal_backend.entity.JobApplication;
 import com.spring.job_portal_backend.entity.JobPortalUser;
+import com.spring.job_portal_backend.entity.Profile;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -56,6 +59,43 @@ public class ApplicationUtility {
                 job.getUrgent(),
                 job.getRemote(),
                 job.getStatus()
+        );
+    }
+
+    public static JobApplicationDto convertToJobApplicationDto(JobApplication application) {
+        ProfileDto profileDto = null;
+        Profile profile = application.getUser().getProfile();
+        if (profile != null) {
+            profileDto = new ProfileDto(
+                    profile.getId(),
+                    profile.getUser().getId(),
+                    profile.getJobTitle(),
+                    profile.getLocation(),
+                    profile.getExperienceLevel(),
+                    profile.getProfessionalBio(),
+                    profile.getPortfolioWebsite(),
+                    profile.getProfilePicture(),
+                    profile.getProfilePictureName(),
+                    profile.getProfilePictureType(),
+                    profile.getResume(),
+                    profile.getResumeName(),
+                    profile.getResumeType(),
+                    profile.getCreatedAt(),
+                    profile.getUpdatedAt()
+            );
+        }
+        return new JobApplicationDto(
+                application.getId(),
+                application.getUser().getId(),
+                application.getUser().getName(),
+                application.getUser().getEmail(),
+                application.getUser().getMobileNumber(),
+                profileDto,
+                ApplicationUtility.convertJobToDto(application.getJob()),
+                application.getAppliedAt(),
+                application.getStatus(),
+                application.getCoverLetter(),
+                application.getNotes()
         );
     }
 }
