@@ -6,42 +6,32 @@ import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
+@Profile("!prod")
 @RequiredArgsConstructor
-@Profile("prod")
-public class CustomUsernamePwdAuthAProvider implements AuthenticationProvider {
+public class CustomNonProdUsernamePwdAuthAProvider implements AuthenticationProvider {
 
     private final JobPortalUserRepository jobPortalUserRepository;
-    private final PasswordEncoder passwordEncoder;
 
     @Override
     public @Nullable Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
         String username = authentication.getName();
-        String password = authentication.getCredentials().toString();
         JobPortalUser returnedUser = jobPortalUserRepository.findUserByEmail(username).orElseThrow(
                 () -> new UsernameNotFoundException("No user with username "+ username));
 
-        if (passwordEncoder.matches(password, returnedUser.getPasswordHash())) {
-
-            var authenticationResult = new UsernamePasswordAuthenticationToken(returnedUser, null,
-                    List.of(new SimpleGrantedAuthority(returnedUser.getRole().getName())));
-            return authenticationResult;
-
-        } else {
-            throw new BadCredentialsException("Invalid credentials");
-        }
+        var authenticationResult = new UsernamePasswordAuthenticationToken(returnedUser, null,
+                List.of(new SimpleGrantedAuthority(returnedUser.getRole().getName())));
+        return authenticationResult;
     }
 
 
