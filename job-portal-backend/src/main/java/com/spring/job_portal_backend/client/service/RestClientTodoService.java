@@ -33,15 +33,6 @@ public class RestClientTodoService {
                 });
     }
 
-//    public TodoDto findById(Long id) {
-//        return restClient.get()
-//                .uri(TODOS_API + "/{id}", id)
-//                .retrieve()
-//                .onStatus(HttpStatusCode::is4xxClientError, (req, res) ->
-//                        new IllegalArgumentException("Todo not found with id: " + id))
-//                .body(TodoDto.class);
-//    }
-
     public TodoDto findById(Long id) {
         try {
             return restClient.get()
